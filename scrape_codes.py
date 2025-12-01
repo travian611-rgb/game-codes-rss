@@ -35,7 +35,7 @@ for game, url in pages.items():
         items.append({
             "title": f"{code} ({game})",
             "description": reward,
-            "link": url
+            "link": f"{url}?code={code}"
         })
 
 # Build RSS
