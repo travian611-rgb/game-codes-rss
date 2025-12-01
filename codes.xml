@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>Game Codes Feed</title>
+<link>https://travian611-rgb.github.io/game-codes-rss</link>
+<description>Automatically updated game codes</description>
+<lastBuildDate>Tue, 01 Dec 2025 00:00:00 +0000</lastBuildDate>
+
+<item>
+<title>CODE123 (Honkai Star Rail)</title>
+<description>100 Primogems</description>
+<link>https://www.pcgamesn.com/honkai-star-rail/codes</link>
+</item>
+
+<item>
+<title>CODE456 (Wuthering Waves)</title>
+<description>500 Crystals</description>
+<link>https://www.pcgamesn.com/wuthering-waves/codes</link>
+</item>
+
+<item>
+<title>CODE789 (Zenless Zone Zero)</title>
+<description>Starter Pack</description>
+<link>https://www.pcgamesn.com/zenless-zone-zero/codes</link>
+</item>
+
+</channel>
+</rss>
