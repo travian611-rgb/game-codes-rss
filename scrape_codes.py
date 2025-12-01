@@ -1,5 +1,4 @@
 import requests
-import json
 from bs4 import BeautifulSoup
 import datetime
 
@@ -11,45 +10,33 @@ pages = {
 
 items = []
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+}
+
 for game, url in pages.items():
-    r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    # Extract the embedded JSON
-    script = soup.find("script", {"id": "__NEXT_DATA__"})
-    if not script:
-        continue
+    # Look for list entries that contain <strong>
+    for li in soup.find_all("li"):
+        strong = li.find("strong")
+        if not strong:
+            continue
 
-    data = json.loads(script.string)
+        code = strong.get_text(strip=True)
+        if len(code) < 4:  # filter out garbage
+            continue
 
-    # PCGamesN puts the article content under this path
-    try:
-        codes = data["props"]["pageProps"]["article"]["blocks"]
-    except KeyError:
-        continue
+        # Reward is rest of li text minus code
+        full = li.get_text(" ", strip=True)
+        reward = full.replace(code, "").strip(" -–:")
 
-    # Find any blocks that contain code lists
-    for block in codes:
-        if block.get("__typename") == "ListBlock":
-            for entry in block.get("items", []):
-                # Must contain a bold code item
-                code = None
-                reward = None
-                for child in entry.get("children", []):
-                    if child.get("tag") == "strong":
-                        code = child.get("children", [""])[0]
-                    else:
-                        # Other children contain reward text
-                        text = "".join(child.get("children", []))
-                        if text and "Expires" not in text:
-                            reward = text.strip()
-
-                if code:
-                    items.append({
-                        "title": f"{code} ({game})",
-                        "description": reward or "",
-                        "link": url
-                    })
+        items.append({
+            "title": f"{code} ({game})",
+            "description": reward,
+            "link": url
+        })
 
 # Build RSS
 rss_items = "\n".join([
