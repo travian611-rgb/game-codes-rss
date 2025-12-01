@@ -25,7 +25,7 @@ jobs:
 
       - name: Run scraper
         run: |
-          python fetch_codes.py
+          python scrape_codes.py
 
       - name: Commit & push changes
         env:
